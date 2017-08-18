@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/cache"
+            android:title="Cache" />
+
+		<item
+			android:id="@+id/facebook"
+			android:title="Facebook"/>
+
+    </group>
+</menu>

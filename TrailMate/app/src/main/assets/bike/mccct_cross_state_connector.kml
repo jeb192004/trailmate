@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd http://www.google.com/kml/ext/2.2 http://code.google.com/apis/kml/schema/kml22gx.xsd">
+<Document id="trails_temp_layer">
+  <name>trails_temp_layer</name>
+  <Snippet></Snippet>
+  <Folder id="FeatureLayer0">
+    <name>trails_temp_layer</name>
+    <Snippet></Snippet>
+    <description><![CDATA[trails_temp_layer]]></description>
+    <Placemark id="ID_00000">
+      <name>MCCCT Cross State Connector</name>
+      <Snippet></Snippet>
+      <description><![CDATA[<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body style="margin:0px 0px 0px 0px;overflow:auto;background:#FFFFFF;">
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-collapse:collapse;padding:3px 3px 3px 3px">
+<tr style="text-align:center;font-weight:bold;background:#9CBCE2">
+<td>MCCCT Cross State Connector</td>
+</tr>
+<tr>
+<td>
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-spacing:0px; padding:3px 3px 3px 3px">
+<tr>
+<td>Name</td>
+<td>MCCCT Cross State Connector</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+]]></description>
+      <styleUrl>#LineStyle00</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <extrude>0</extrude><altitudeMode>clampToGround</altitudeMode>
+          <coordinates> -85.41658078399996,44.48908943800007,0 -85.41685467099995,44.49113310900003,0 -85.41546652699998,44.49734561400004,0 -85.41495996399999,44.49807505300004,0 -85.40736691899997,44.50627056000008,0 -85.40595421299997,44.50785995200005,0 -85.40530597499998,44.50875220400008,0 -85.40402099699998,44.51070826300003,0 -85.40337347899998,44.51152428200004,0 -85.40262000899998,44.51228257300005,0 -85.40447017399998,44.51230219200005,0 -85.40617344099996,44.51287980000006,0 -85.40577018899995,44.51391506800007,0 -85.40676469199997,44.51497269900005,0 -85.40779736999997,44.51727664200007,0 -85.40765086399995,44.51818371500008,0 -85.40736128099996,44.51857067400005,0 -85.40681119799996,44.51877669300006,0 -85.40728659199993,44.51909823500006,0 -85.40748700999995,44.51952197100007,0 -85.41067578699995,44.51959860700003,0 -85.41146868699997,44.51987334700004,0 -85.41237939899997,44.51957558100003,0 -85.41493594299999,44.51966511100005,0 -85.41487322199998,44.52253508900003,0 -85.41492978499997,44.52438444800004,0 -85.41479240499996,44.52785811300004,0</coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+  </Folder>
+  <Style id="LineStyle00">
+    <LabelStyle>
+      <color>00000000</color>
+      <scale>0.000000</scale>
+    </LabelStyle>
+    <LineStyle>
+      <color>ff0b0085</color>
+      <width>1.000000</width>
+    </LineStyle>
+    <PolyStyle>
+      <color>00000000</color>
+      <outline>0</outline>
+    </PolyStyle>
+  </Style>
+</Document>
+</kml>

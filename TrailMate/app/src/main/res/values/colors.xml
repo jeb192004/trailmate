@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="PrimaryColor">#DCD594</color>
+    <color name="PrimaryDarkColor">#228b22</color>
+	<color name="forest_green">#228b22</color>
+	<color name="MI">#DCD594</color>
+	<color name="black">#000000</color>
+	<color name="semi_transparent">#8C676767</color>
+	<color name="transparent">#80676767</color>
+	<color name="white">#FFFFFF</color>
+	<color name="DarkKhaki">#BDB76B</color> <color name="RosyBrown">#BC8F8F</color> 
+	<color name="colorAccent">#FFA000</color>
+</resources>
+
+
