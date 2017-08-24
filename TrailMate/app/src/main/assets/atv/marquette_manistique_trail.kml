@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd http://www.google.com/kml/ext/2.2 http://code.google.com/apis/kml/schema/kml22gx.xsd">
+<Document id="trails_temp_layer">
+  <name>trails_temp_layer</name>
+  <Snippet></Snippet>
+  <Folder id="FeatureLayer0">
+    <name>trails_temp_layer</name>
+    <Snippet></Snippet>
+    <description><![CDATA[trails_temp_layer]]></description>
+    <Placemark id="ID_00000">
+      <name>Marquette-Manistique Trail</name>
+      <Snippet></Snippet>
+      <description><![CDATA[<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body style="margin:0px 0px 0px 0px;overflow:auto;background:#FFFFFF;">
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-collapse:collapse;padding:3px 3px 3px 3px">
+<tr style="text-align:center;font-weight:bold;background:#9CBCE2">
+<td>Marquette-Manistique Trail</td>
+</tr>
+<tr>
+<td>
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-spacing:0px; padding:3px 3px 3px 3px">
+<tr>
+<td>Name</td>
+<td>Marquette-Manistique Trail</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+]]></description>
+      <styleUrl>#LineStyle00</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <extrude>0</extrude><altitudeMode>clampToGround</altitudeMode>
+          <coordinates> -87.22112664999997,46.48429950900004,0 -87.20497253199994,46.48417320200008,0 -87.17180926399999,46.49114467500004,0 -87.16920624299996,46.49153633100008,0 -87.16665881999995,46.49148523800005,0 -87.13319276299995,46.48883204200007,0 -87.13016778399998,46.48889829300003,0 -87.09595537899998,46.49242254700005,0 -87.09362011999997,46.49250240300006,0 -87.08965942099997,46.49226329600003,0 -87.08528638199994,46.49142847600007,0 -87.08303536499994,46.49070035200003,0 -87.05314642999997,46.47790481600003,0 -87.04953133299995,46.47647376500004,0 -87.04685026999994,46.47588719100003,0 -87.01346179499996,46.47324632600004,0 -87.00004653599996,46.47141539400008,0 -86.99766240299994,46.47151677300008,0 -86.99502114399996,46.47216214400004,0 -86.99201150999994,46.47366370400005,0 -86.98940573199997,46.47443544700008,0 -86.98724164299995,46.47471916600006,0 -86.98585649299997,46.47470797700004,0 -86.98345092399995,46.47435725200006,0 -86.97648716599997,46.47235539400003,0 -86.97361316299998,46.47118081300005,0 -86.96963113299995,46.47055731300003,0 -86.96515246299998,46.46920004500004,0 -86.96264081999999,46.46773395300005,0 -86.96000447199998,46.46485089900006,0 -86.95791338499998,46.46356564600006,0 -86.95573273299999,46.46288055600007,0 -86.95008726399999,46.46152085100005,0 -86.92470054799998,46.45354207400004,0 -86.89184320899994,46.44027724300003,0 -86.86557631399995,46.42967804800003,0 -86.86441992199997,46.42929478100007,0 -86.86226262899999,46.42887288700007,0 -86.86006518399995,46.42874138500008,0 -86.85847145799994,46.42881131200005,0 -86.83759422399999,46.43259383600008,0 -86.81357268199997,46.43689901700003,0 -86.81112730499996,46.43691625100007,0 -86.80775561999997,46.43630587300004,0 -86.80498453599995,46.43495147900006,0 -86.80311668599995,46.43263965100005,0 -86.79572798499999,46.41842471000007,0 -86.78623482799998,46.40633717300005,0 -86.78236208799996,46.40255920700008,0 -86.77760478199997,46.40100626900005,0 -86.76111068499995,46.40122204700003,0 -86.75410946199997,46.40058245500006,0</coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+  </Folder>
+  <Style id="LineStyle00">
+    <LabelStyle>
+      <color>00000000</color>
+      <scale>0.000000</scale>
+    </LabelStyle>
+    <LineStyle>
+      <color>ff0b0085</color>
+      <width>1.000000</width>
+    </LineStyle>
+    <PolyStyle>
+      <color>00000000</color>
+      <outline>0</outline>
+    </PolyStyle>
+  </Style>
+</Document>
+</kml>

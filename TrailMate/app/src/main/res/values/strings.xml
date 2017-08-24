@@ -7,7 +7,7 @@
 	<string name="closeDrawer">Navigation View</string>
     <string name="openDrawer">Navigation View Closed</string>
 	<string name="orvtrailswitchname">ORV Trails(&lt;50")</string>
-	<string name="orvrouteswitchname">ORV Trails(&gt;50&quot;)</string>
+	<string name="orvrouteswitchname">ORV Routes(&gt;50&quot;)</string>
 	<string name="snowswitchname">Snowmobile Trails</string>
 	
 </resources>

@@ -23,7 +23,7 @@ public class OrvListAdapter extends RecyclerView.ViewHolder {
         picBike = (ImageView) view.findViewById(R.id.pic_bike);
 		picBike.setImageResource(R.drawable.bike);
 		picAtv = (ImageView) view.findViewById(R.id.pic_atv);
-		picAtv.setImageResource(R.drawable.atv_2);
+		picAtv.setImageResource(R.drawable.atv);
 		picUtv = (ImageView) view.findViewById(R.id.pic_utv);
 		picUtv.setImageResource(R.drawable.utv);
 		picSnow = (ImageView) view.findViewById(R.id.pic_snow);

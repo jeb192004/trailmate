@@ -20,7 +20,7 @@ import org.osmdroid.views.overlay.*;
 import android.support.design.widget.*;
 import android.view.*;
 import android.net.*;
-import com.JEB.trailmaps.cache.*;
+
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
@@ -33,18 +33,26 @@ import com.JEB.trailmaps.kmlStyler.*;
 import org.osmdroid.bonuspack.kml.*;
 import java.io.*;
 import android.content.res.*;
-import com.JEB.trailmaps.trails.*;
+import com.JEB.trailmaps.mx_trails.*;
+import org.osmdroid.tileprovider.*;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import org.osmdroid.tileprovider.cachemanager.CacheManager;
 
-public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener,OnSeekBarChangeListener,
+View.OnClickListener
 {
+
 //map stuff
 	private MyLocationNewOverlay mLocationOverlay;
 	private CompassOverlay mCompassOverlay;
 	private RotationGestureOverlay mRotationGestureOverlay;
 	//private ScaleBarOverlay mScaleBarOverlay;
 
-	private NavigationView navigationView;
-	private DrawerLayout drawerLayout;
+	
+	public DrawerLayout drawerLayout;
 
 	//private MapView map;
 
@@ -59,15 +67,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 	private SnowTrailHeads snowTrailheads;
 
 	private Vids vid;
-
-	private FolderOverlay bikeOverlay;
-
-	private KmlDocument kmlDocument;
-
-	private InputStream streamDeKml;
-
-	private String kmlFile;
-
 	public MapView map;
 
 	private BikeKml bike_kml;
@@ -78,11 +77,30 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
 	private OrvListRecyclerAdapter adapter;
 
-	
+	private SwitchCompat mapnik_switch, sat_switch, topo_switch;
 
-	
+	private AtvKml atv_kml;
 
-	
+	private AlertDialog alertDialog;
+
+	private SeekBar zoom_max;
+
+	private SeekBar zoom_min;
+
+	private TextView cache_estimate;
+
+	private Button executeJob;
+
+	private AlertDialog downloadPrompt;
+	CacheManager mgr;
+
+	private String cache_east;
+
+	private String cache_north;
+
+	private String cache_south;
+
+	private String cache_west;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -96,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 		
 //load map
         map = (MapView) findViewById(R.id.map);
+		mgr = new CacheManager(map);
+        
         map.setTileSource(TileSourceFactory.MAPNIK);
 		//map.setTileSource(TileSourceFactory.USGS_SAT);
 		//map.setTileSource(TileSourceFactory.USGS_TOPO);
@@ -120,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 		mRotationGestureOverlay = new RotationGestureOverlay(ctx, map);
 		mRotationGestureOverlay.setEnabled(true);
 		map.getOverlays().add(this.mRotationGestureOverlay);
-		
+//load list
 		mRecyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
 		orv_list = new OrvList();
 		orv_list.setList(this);
@@ -129,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         adapter = new OrvListRecyclerAdapter(this, orv_list.allorvList);
         mRecyclerView.setAdapter(adapter);
+		
+		
 		switches();
 		overlays();
 		
@@ -179,6 +201,18 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 		SwitchCompat vid_switch = (SwitchCompat) findViewById(R.id.video_switch);
         vid_switch.setSwitchPadding(40);
         vid_switch.setOnCheckedChangeListener(this);
+		
+		mapnik_switch = (SwitchCompat) findViewById(R.id.mapnik_switch);
+        mapnik_switch.setSwitchPadding(40);
+        mapnik_switch.setOnCheckedChangeListener(this);
+		
+		sat_switch = (SwitchCompat) findViewById(R.id.sat_switch);
+        sat_switch.setSwitchPadding(40);
+        sat_switch.setOnCheckedChangeListener(this);
+		
+		topo_switch = (SwitchCompat) findViewById(R.id.topo_switch);
+        topo_switch.setSwitchPadding(40);
+        topo_switch.setOnCheckedChangeListener(this);
 		
 	}
 
@@ -240,21 +274,27 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 					bike_kml.bike_kml(this);
 				}
 				else{
-					bike_kml = new BikeKml();
 					bike_kml.bike_kml_clear(this);
 				}
-                Log.i("switch_compat", isChecked + "");
+                Log.i("bike overlay switch", isChecked + "");
                 break;
             case R.id.atvswitch:
-                Log.i("switch_compat2", isChecked + "");
+				if(isChecked){
+					atv_kml = new AtvKml();
+					atv_kml.atv_kml(this);
+				}
+				else{
+					atv_kml.atv_kml_clear(this);
+				}
+                Log.i("atv overlay switch", isChecked + "");
                 break;
 			case R.id.utvswitch:
-                Log.i("switch_compat2", isChecked + "");
+                Log.i("utv overlay switch", isChecked + "");
                 break;
 			case R.id.action_video_switch:
 				if(isChecked){
 				map.getOverlays().add(action_vids.actionVid);
-                Log.i("video_switch", isChecked + "");
+                Log.i("random video" + "switch", isChecked + "");
 				}else{
 					map.getOverlays().remove(action_vids.actionVid);
 				}
@@ -262,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 			case R.id.trail_locations_switch:
 				if(isChecked){
 					map.getOverlays().add(trailLocations.mMyLocationOverlay);
-					Log.i("video_switch", isChecked + "");
+					Log.i("orv trail" + "switch", isChecked + "");
 				}else{
 					map.getOverlays().remove(trailLocations.mMyLocationOverlay);
 				}
@@ -270,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 			case R.id.orvth_switch:
 				if(isChecked){
 					map.getOverlays().add(orvTrailheads.mMyTrailHeads);
-					Log.i("video_switch", isChecked + "");
+					Log.i("orv trailhead"+"switch", isChecked + "");
 				}else{
 					map.getOverlays().remove(orvTrailheads.mMyTrailHeads);
 				}
@@ -278,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 			case R.id.snowth_switch:
 				if(isChecked){
 					map.getOverlays().add(snowTrailheads.SnowTrailHeads);
-					Log.i("video_switch", isChecked + "");
+					Log.i("snowmobile trailhead switch", isChecked + "");
 				}else{
 					map.getOverlays().remove(snowTrailheads.SnowTrailHeads);
 				}
@@ -291,6 +331,52 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 					map.getOverlays().remove(vid.vid_location);
 				}
                 break;
+			case R.id.mapnik_switch:
+				if(isChecked){
+					map.setTileSource(TileSourceFactory.MAPNIK);
+					map.setUseDataConnection(true);
+					map.invalidate();
+					sat_switch.setChecked(false);
+					topo_switch.setChecked(false);
+				}
+				else{
+					map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+					map.setUseDataConnection(true);
+					map.invalidate();
+				}
+                Log.i("mapnik switch", isChecked + "");
+                break;
+			case R.id.sat_switch:
+				if(isChecked){
+					map.setTileSource(TileSourceFactory.USGS_SAT);
+					map.setUseDataConnection(true);
+					map.invalidate();
+					mapnik_switch.setChecked(false);
+					topo_switch.setChecked(false);
+				}
+				else{
+					map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+					map.setUseDataConnection(true);
+					map.invalidate();
+				}
+                Log.i("satellite switch", isChecked + "");
+                break;
+			case R.id.topo_switch:
+				if(isChecked){
+					map.setTileSource(TileSourceFactory.USGS_TOPO);
+					map.setUseDataConnection(true);
+					map.invalidate();
+					mapnik_switch.setChecked(false);
+					sat_switch.setChecked(false);
+				}
+				else{
+					map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+					map.setUseDataConnection(true);
+					map.invalidate();
+				}
+                Log.i("topo switch", isChecked + "");
+                break;
+				
         }}
 
 	
@@ -345,9 +431,257 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 			}
 			return true;
 		}
+		if (item != null && item.getItemId() == R.id.cache) {
+			showCacheManagerDialog();
+			return true;
+		}
 		return false;
 	}
 
+	
+	@Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.executeJob:
+                updateEstimate(true);
+                break;
+
+        }
+    }
+	private void showCacheManagerDialog(){
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+			MainActivity.this);
+
+
+        // set title
+        alertDialogBuilder.setTitle("cache_manager");
+		//.setMessage(R.string.cache_manager_description);
+
+        // set dialog message
+        alertDialogBuilder.setItems(new CharSequence[]{
+                "Cache Download Info",
+                "Download",
+                "Cancel"
+			}, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					switch (which){
+						case 0:
+							showCurrentCacheInfo();
+							break;
+						case 1:
+							downloadJobAlert();
+							break;
+						default:
+							dialog.dismiss();
+							break;
+					}
+				}
+			}
+        );
+
+
+        // create alert dialog
+        alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
+
+        //mgr.possibleTilesInArea(mMapView.getBoundingBox(), 0, 18);
+		// mgr.
+    }
+
+    private void downloadJobAlert() {
+        //prompt for input params
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        View view = View.inflate(getApplicationContext(), R.layout.sample_cache_input, null);
+
+        BoundingBox boundingBox = map.getBoundingBox();
+        zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
+        zoom_max.setMax(map.getMaxZoomLevel());
+        zoom_max.setOnSeekBarChangeListener(MainActivity.this);
+
+
+        zoom_min=(SeekBar) view.findViewById(R.id.slider_zoom_min);
+        zoom_min.setMax(map.getMaxZoomLevel());
+        zoom_min.setProgress(map.getMinZoomLevel());
+        zoom_min.setOnSeekBarChangeListener(MainActivity.this);
+        
+        cache_east = boundingBox.getLonEast() +"";
+        
+        cache_north =boundingBox.getLatNorth() +"";
+        
+        cache_south = boundingBox.getLatSouth()  +"";
+        
+        cache_west = boundingBox.getLonWest()  +"";
+        cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
+		
+        
+        cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
+
+        //change listeners for both validation and to trigger the download estimation
+        
+        executeJob= (Button) view.findViewById(R.id.executeJob);
+        executeJob.setOnClickListener(MainActivity.this);
+        builder.setView(view);
+        builder.setCancelable(true);
+		
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					cache_east=null;
+					cache_south=null;
+					cache_estimate=null;
+					cache_north=null;
+					cache_west=null;
+					executeJob=null;
+					zoom_min=null;
+					zoom_max=null;
+				}
+			});
+        downloadPrompt=builder.create();
+        downloadPrompt.show();
+
+
+    }
+
+    /**
+     * if true, start the job
+     * if false, just update the dialog box
+     */
+    private void updateEstimate(boolean startJob) {
+        try {
+            if (cache_east != null &&
+				cache_west != null &&
+				cache_north != null &&
+				cache_south != null &&
+				zoom_max != null &&
+				zoom_min != null) {
+                double n = Double.parseDouble(cache_north);
+                double s = Double.parseDouble(cache_south);
+                double e = Double.parseDouble(cache_east);
+                double w = Double.parseDouble(cache_west);
+
+                int zoommin = zoom_min.getProgress();
+                int zoommax = zoom_max.getProgress();
+                //nesw
+                BoundingBox bb= new BoundingBox(n, e, s, w);
+                int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
+                cache_estimate.setText(tilecount + " tiles");
+                if (startJob)
+                {
+                    if ( downloadPrompt!=null) {
+                        downloadPrompt.dismiss();
+                        downloadPrompt=null;
+                    }
+
+                    //this triggers the download
+                    mgr.downloadAreaAsync(MainActivity.this, bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
+							@Override
+							public void onTaskComplete() {
+								Toast.makeText(MainActivity.this, "Download complete!", Toast.LENGTH_LONG).show();
+							}
+
+							@Override
+							public void onTaskFailed(int errors) {
+								Toast.makeText(MainActivity.this, "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
+							}
+
+							@Override
+							public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
+								//NOOP since we are using the build in UI
+							}
+
+							@Override
+							public void downloadStarted() {
+								//NOOP since we are using the build in UI
+							}
+
+							@Override
+							public void setPossibleTilesInArea(int total) {
+								//NOOP since we are using the build in UI
+							}
+						});
+                }
+
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private void showCurrentCacheInfo() {
+        Toast.makeText(MainActivity.this, "Calculating..." ,Toast.LENGTH_SHORT).show();
+        new Thread(new Runnable() {
+				@Override
+				public void run() {
+					final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        MainActivity.this);
+
+
+					// set title
+					alertDialogBuilder.setTitle("Cache Manager")
+                        .setMessage("Cache Capacity (bytes): " + mgr.cacheCapacity() + "\n"+
+									"Cache Usage (bytes): " + mgr.currentCacheUsage());
+
+					// set dialog message
+					alertDialogBuilder.setItems(new CharSequence[]{
+
+							"Cancel"
+                        }, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }
+					);
+
+
+
+
+					runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// show it
+								// create alert dialog
+								final AlertDialog alertDialog = alertDialogBuilder.create();
+								alertDialog.show();
+							}
+						});
+
+				}
+			}).start();
+
+
+
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        updateEstimate(false);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (alertDialog!=null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        if (downloadPrompt!=null && downloadPrompt.isShowing()){
+            downloadPrompt.dismiss();
+        }
+    }
 	
 	
 	
