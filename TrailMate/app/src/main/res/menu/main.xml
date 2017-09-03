@@ -7,7 +7,7 @@
         myapp:showAsAction="always"/>
 	<item
         android:id="@+id/btnMyMenu"
-        android:icon="@drawable/drawer2"
+        android:icon="@drawable/list"
         android:title="Right Side Menu"
         myapp:showAsAction="always"/>
 	

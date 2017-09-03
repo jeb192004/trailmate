@@ -9,7 +9,7 @@
 	android:fitsSystemWindows="true"
 	tools:context=".MainActivity">
 
-	<LinearLayout
+	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical">
@@ -24,9 +24,21 @@
 		<org.osmdroid.views.MapView
 			android:id="@+id/map"
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"/>
-
-	</LinearLayout>
+			android:layout_height="fill_parent"
+			android:layout_below="@+id/toolbar"/>
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:orientation="vertical"
+			android:gravity="right">
+		<ImageButton
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:id="@+id/follow_me"/>
+		</LinearLayout>
+	</RelativeLayout>
 
 	<RelativeLayout
 		android:id="@+id/navigation_view"
@@ -55,6 +67,7 @@
 					android:text="Trails"
 					android:textStyle="bold"
 					android:layout_margin="5dp"/>
+
 				<LinearLayout
 					android:layout_height="wrap_content"
 					android:layout_width="match_parent"
@@ -77,6 +90,7 @@
 						android:gravity="right"/>
 
 				</LinearLayout>
+
 				<LinearLayout
 					android:layout_height="wrap_content"
 					android:layout_width="match_parent"
@@ -243,13 +257,49 @@
 					android:layout_width="match_parent"
 					android:orientation="vertical">
 
-					<TextView
-						android:layout_width="wrap_content"
+					<LinearLayout
 						android:layout_height="wrap_content"
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:text="Map Style"
-						android:layout_margin="5dp"
-						android:textStyle="bold"/>
+						android:layout_width="match_parent"
+						android:orientation="vertical"
+						android:layout_margin="5dp">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceLarge"
+							android:text="Map Style"
+							android:textStyle="bold"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceSmall"
+							android:text="Min/Max zoom levels may vary with map styles"/>
+
+					</LinearLayout>
+
+					<LinearLayout
+						android:layout_height="40dp"
+						android:layout_width="match_parent"
+						android:orientation="horizontal"
+						android:gravity="center_vertical">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceMedium"
+							android:text="Map data connection"
+							android:textColor="#000000"
+							android:paddingLeft="10dp"/>
+
+						<android.support.v7.widget.SwitchCompat
+							android:id="@+id/map_data_switch"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:text=""
+							android:gravity="right"/>
+
+					</LinearLayout>
 
 					<LinearLayout
 						android:layout_height="40dp"
@@ -322,7 +372,29 @@
 							android:gravity="right"/>
 
 					</LinearLayout>
+					<LinearLayout
+						android:layout_height="40dp"
+						android:layout_width="match_parent"
+						android:orientation="horizontal"
+						android:background="@drawable/mapbox_terrain"
+						android:gravity="center_vertical">
 
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceMedium"
+							android:text="Mapbox - Terrain"
+							android:textColor="#FFFFFF"
+							android:paddingLeft="10dp"/>
+
+						<android.support.v7.widget.SwitchCompat
+							android:id="@+id/mapbox_switch"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:text=""
+							android:gravity="right"/>
+
+					</LinearLayout>
 				</LinearLayout>
 
 				<View
@@ -410,13 +482,26 @@
 			<Button
 				style="?android:attr/buttonBarButtonStyle"
 				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
+				android:layout_width="fill_parent"
+				android:text="Facebook"
+				android:id="@+id/fb"
+				android:gravity="center_horizontal"/>
+			<View
+				android:background="?android:attr/dividerVertical"
+				android:layout_height="1dp"
+				android:layout_width="match_parent"/>
+			<Button
+				style="?android:attr/buttonBarButtonStyle"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
 				android:text="Settings"
-				android:id="@+id/setting"/>
+				android:id="@+id/setting"
+				android:gravity="center_horizontal"/>
 
 		</LinearLayout>
 
 	</RelativeLayout>
+
 	<RelativeLayout
 		android:id="@+id/navigation_view2"
 		android:layout_width="275dp"
@@ -425,15 +510,11 @@
 
 		<android.support.v7.widget.RecyclerView
 			android:id="@+id/card_recycler_view"
-			
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:background="@color/transparent"/>
 
 	</RelativeLayout>
-
-	
-	
 
 </android.support.v4.widget.DrawerLayout>
 

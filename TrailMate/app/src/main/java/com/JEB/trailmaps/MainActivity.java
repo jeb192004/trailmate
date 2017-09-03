@@ -20,7 +20,7 @@ import org.osmdroid.views.overlay.*;
 import android.support.design.widget.*;
 import android.view.*;
 import android.net.*;
-
+import com.facebook.FacebookSdk;
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
@@ -40,6 +40,8 @@ import android.content.DialogInterface;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import com.facebook.login.widget.*;
+import org.osmdroid.views.overlay.infowindow.*;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener,OnSeekBarChangeListener,
 View.OnClickListener
@@ -50,20 +52,16 @@ View.OnClickListener
 	private CompassOverlay mCompassOverlay;
 	private RotationGestureOverlay mRotationGestureOverlay;
 	//private ScaleBarOverlay mScaleBarOverlay;
-
 	
 	public DrawerLayout drawerLayout;
 
 	//private MapView map;
 
 	private ActionVids action_vids;
-
 	private Image360 image_360;
 
 	private TrailLocations trailLocations;
-
 	private OrvTrailHeads orvTrailheads;
-
 	private SnowTrailHeads snowTrailheads;
 
 	private Vids vid;
@@ -77,31 +75,28 @@ View.OnClickListener
 
 	private OrvListRecyclerAdapter adapter;
 
-	private SwitchCompat mapnik_switch, sat_switch, topo_switch;
-
+	private SwitchCompat mapnik_switch, sat_switch, topo_switch, map_data_switch,
+	mapbox_switch;
 	private AtvKml atv_kml;
 
 	private AlertDialog alertDialog;
 
-	private SeekBar zoom_max;
-
-	private SeekBar zoom_min;
-
+	private SeekBar zoom_max, zoom_min;
 	private TextView cache_estimate;
-
-	private Button executeJob;
-
+	private Button executeJob,cancel;
 	private AlertDialog downloadPrompt;
 	CacheManager mgr;
+	private String cache_east, cache_north, cache_south, cache_west,
+	mapStyle;
 
-	private String cache_east;
+	private SharedPreferences prefs;
+	SharedPreferences.Editor editor;
 
-	private String cache_north;
+	private UtvKml utv_kml;
 
-	private String cache_south;
+	private ImageButton followMe;
 
-	private String cache_west;
-	
+	private PowerManager pm;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -115,11 +110,7 @@ View.OnClickListener
 //load map
         map = (MapView) findViewById(R.id.map);
 		mgr = new CacheManager(map);
-        
-        map.setTileSource(TileSourceFactory.MAPNIK);
-		//map.setTileSource(TileSourceFactory.USGS_SAT);
-		//map.setTileSource(TileSourceFactory.USGS_TOPO);
-		map.setUseDataConnection(true);
+       
 //zoom controls	
 		//map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
@@ -149,23 +140,63 @@ View.OnClickListener
 
         adapter = new OrvListRecyclerAdapter(this, orv_list.allorvList);
         mRecyclerView.setAdapter(adapter);
-		
-		
+		Button fb = (Button)findViewById(R.id.fb); 
+		fb.setOnClickListener(new View.OnClickListener() {
+
+				private Intent fIntent;
+				public void onClick(View v) {
+					try {
+						MainActivity.this.getPackageManager().getPackageInfo("com.facebook.katana", 0);
+						fIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/1731877297109570"));
+					} catch (Exception e) {
+						fIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.facebook.com/ORV-TrailMate-1731877297109570/?slog=61&seq=1766569984&rk=0&fbtype=274&refid=46"));
+					}
+					startActivity(fIntent);
+				}
+			});
 		switches();
 		overlays();
-		
-		
-		/**  can't get to work
-		mScaleBarOverlay = new ScaleBarOverlay();
-		mScaleBarOverlay.setCentred(true);
-//play around with these values to get the location on screen in the right place for your applicatio
-		mScaleBarOverlay.setScaleBarOffset(24 / 2, 10);
-		map.getOverlays().add(this.mScaleBarOverlay);
-		**/
-		
 		navDrawerOne();
-		
-		
+		prefs = getSharedPreferences("com.JEB.trailmaps", MODE_PRIVATE);
+		editor = prefs.edit();
+		preferences();
+		followMe = (ImageButton)findViewById(R.id.follow_me);
+		followMe.setImageResource(R.drawable.follow);
+		pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		final PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
+        followMe.setOnClickListener(new View.OnClickListener()
+			{
+
+				private boolean follow;
+
+
+				@Override
+				public void onClick(View v)
+				{
+
+					try{
+						if (follow)
+						{
+							mLocationOverlay.disableFollowLocation();
+							wl.release();
+							followMe.setImageResource(R.drawable.follow);
+						}
+						else{
+
+
+							map.getController().animateTo(mLocationOverlay.getMyLocation());
+
+							mLocationOverlay.enableFollowLocation();
+							wl.acquire();
+							followMe.setImageResource(R.drawable.follow1);
+
+						}
+						follow = !follow;
+					}catch(Exception ex){
+						Toast.makeText(getApplicationContext(),"Searching for location...\nOr your GPS is not turned on",Toast.LENGTH_SHORT).show();
+					}
+				}
+			});
     }
 
 	private void switches()
@@ -214,6 +245,14 @@ View.OnClickListener
         topo_switch.setSwitchPadding(40);
         topo_switch.setOnCheckedChangeListener(this);
 		
+		mapbox_switch = (SwitchCompat) findViewById(R.id.mapbox_switch);
+        mapbox_switch.setSwitchPadding(40);
+        mapbox_switch.setOnCheckedChangeListener(this);
+		
+		map_data_switch = (SwitchCompat) findViewById(R.id.map_data_switch);
+        map_data_switch.setSwitchPadding(40);
+		map_data_switch.setChecked(true);
+        map_data_switch.setOnCheckedChangeListener(this);
 	}
 
 	
@@ -265,6 +304,8 @@ View.OnClickListener
 		
 	}
 	
+	
+	
 	@Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
@@ -289,6 +330,13 @@ View.OnClickListener
                 Log.i("atv overlay switch", isChecked + "");
                 break;
 			case R.id.utvswitch:
+				if(isChecked){
+					utv_kml = new UtvKml();
+					utv_kml.utv_kml(this);
+				}
+				else{
+					utv_kml.utv_kml_clear(this);
+				}
                 Log.i("utv overlay switch", isChecked + "");
                 break;
 			case R.id.action_video_switch:
@@ -333,11 +381,13 @@ View.OnClickListener
                 break;
 			case R.id.mapnik_switch:
 				if(isChecked){
-					map.setTileSource(TileSourceFactory.MAPNIK);
-					map.setUseDataConnection(true);
-					map.invalidate();
 					sat_switch.setChecked(false);
 					topo_switch.setChecked(false);
+					mapbox_switch.setChecked(false);
+					map.setTileSource(TileSourceFactory.MAPNIK);
+					map_data_switch.setChecked(true);
+					map.invalidate();
+					editor.putString("map_style", "mapnik");editor.commit();
 				}
 				else{
 					map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
@@ -348,11 +398,13 @@ View.OnClickListener
                 break;
 			case R.id.sat_switch:
 				if(isChecked){
-					map.setTileSource(TileSourceFactory.USGS_SAT);
-					map.setUseDataConnection(true);
-					map.invalidate();
 					mapnik_switch.setChecked(false);
 					topo_switch.setChecked(false);
+					mapbox_switch.setChecked(false);
+					map.setTileSource(TileSourceFactory.USGS_SAT);
+					map_data_switch.setChecked(true);
+					map.invalidate();
+					editor.putString("map_style", "sat");editor.commit();
 				}
 				else{
 					map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
@@ -363,11 +415,13 @@ View.OnClickListener
                 break;
 			case R.id.topo_switch:
 				if(isChecked){
-					map.setTileSource(TileSourceFactory.USGS_TOPO);
-					map.setUseDataConnection(true);
-					map.invalidate();
 					mapnik_switch.setChecked(false);
 					sat_switch.setChecked(false);
+					mapbox_switch.setChecked(false);
+					map.setTileSource(TileSourceFactory.USGS_TOPO);
+					map_data_switch.setChecked(true);
+					map.invalidate();
+					editor.putString("map_style", "topo");editor.commit();
 				}
 				else{
 					map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
@@ -376,7 +430,43 @@ View.OnClickListener
 				}
                 Log.i("topo switch", isChecked + "");
                 break;
-				
+			case R.id.map_data_switch:
+				if(isChecked){
+					editor.putBoolean("map_data", true);editor.commit();
+					map.setUseDataConnection(true);
+					map.invalidate();
+				}
+				else{
+					editor.putBoolean("map_data", false);editor.commit();
+					map.setUseDataConnection(false);
+					map.invalidate();
+				}
+                Log.i("topo switch", isChecked + "");
+                break;
+			case R.id.mapbox_switch:
+				if(isChecked){
+					mapnik_switch.setChecked(false);
+					sat_switch.setChecked(false);
+					topo_switch.setChecked(false);
+					final MapBoxTileSource tileSource = new MapBoxTileSource();
+//option 1, load your settings from the manifest
+					//tileSource.retrieveAccessToken(this);
+					//tileSource.retrieveMapBoxMapId(this);
+//option 2, provide them programmatically
+					tileSource.setAccessToken("pk.eyJ1IjoiamViMTkyMDA0IiwiYSI6ImNpbWNyODZyaDAwMmZ1MWx2dHdzcHQ5M2EifQ.IZsMnB3wOYFIaX1A5sy7Mw");
+					tileSource.setMapboxMapid("mapbox.mapbox-terrain-v2");
+					map.setTileSource(tileSource);
+					map_data_switch.setChecked(true);
+					map.invalidate();
+					editor.putString("map_style", "mapbox_terrain");editor.commit();
+				}
+				else{
+					map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+					map.setUseDataConnection(true);
+					map.invalidate();
+				}
+                Log.i("mapbox terrain switch", isChecked + "");
+                break;
         }}
 
 	
@@ -445,7 +535,7 @@ View.OnClickListener
             case R.id.executeJob:
                 updateEstimate(true);
                 break;
-
+			
         }
     }
 	private void showCacheManagerDialog(){
@@ -455,31 +545,21 @@ View.OnClickListener
 
 
         // set title
-        alertDialogBuilder.setTitle("cache_manager");
-		//.setMessage(R.string.cache_manager_description);
-
-        // set dialog message
-        alertDialogBuilder.setItems(new CharSequence[]{
-                "Cache Download Info",
-                "Download",
-                "Cancel"
-			}, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					switch (which){
-						case 0:
-							showCurrentCacheInfo();
-							break;
-						case 1:
-							downloadJobAlert();
-							break;
-						default:
-							dialog.dismiss();
-							break;
-					}
+        alertDialogBuilder.setTitle("Map Download");
+		alertDialogBuilder.setMessage(R.string.cache);
+		alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					downloadJobAlert();
 				}
 			}
         );
-
+		alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+				alertDialog.dismiss();
+				}
+			}
+        );
 
         // create alert dialog
         alertDialog = alertDialogBuilder.create();
@@ -525,6 +605,7 @@ View.OnClickListener
         
         executeJob= (Button) view.findViewById(R.id.executeJob);
         executeJob.setOnClickListener(MainActivity.this);
+		
         builder.setView(view);
         builder.setCancelable(true);
 		
@@ -581,6 +662,7 @@ View.OnClickListener
                     mgr.downloadAreaAsync(MainActivity.this, bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
 							@Override
 							public void onTaskComplete() {
+								map_data_switch.setChecked(false);
 								Toast.makeText(MainActivity.this, "Download complete!", Toast.LENGTH_LONG).show();
 							}
 
@@ -683,6 +765,37 @@ View.OnClickListener
         }
     }
 	
+	
+	private void preferences()
+	{
+//map stile
+		mapStyle = prefs.getString("map_style", null);
+		if (mapStyle != null && mapStyle != null ){
+		if(mapStyle.equals("mapnik")){
+				mapnik_switch.setChecked(true);
+			}if(mapStyle.equals("sat")){
+				sat_switch.setChecked(true);
+			}if(mapStyle.equals("topo")){
+				topo_switch.setChecked(true);
+			}if(mapStyle.equals("mapbox_terrain")){
+				mapbox_switch.setChecked(true);
+			}
+			else if(mapStyle.equals(null) ){
+				mapnik_switch.setChecked(true);
+			}}
+//data connection
+		if(prefs.getBoolean("map_data",true)){
+			map_data_switch.setChecked(true);
+			map.setUseDataConnection(true);
+			map.invalidate();
+		}else{
+			map_data_switch.setChecked(false);
+			map.setUseDataConnection(false);
+			map.invalidate();
+		}
+
+		
+	}
 	
 	
 }

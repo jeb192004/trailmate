@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd http://www.google.com/kml/ext/2.2 http://code.google.com/apis/kml/schema/kml22gx.xsd">
+<Document id="trails_temp_layer">
+  <name>trails_temp_layer</name>
+  <Snippet></Snippet>
+  <Folder id="FeatureLayer0">
+    <name>trails_temp_layer</name>
+    <Snippet></Snippet>
+    <description><![CDATA[trails_temp_layer]]></description>
+    <Placemark id="ID_00000">
+      <name>Republic-Champion Route</name>
+      <Snippet></Snippet>
+      <description><![CDATA[<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body style="margin:0px 0px 0px 0px;overflow:auto;background:#FFFFFF;">
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-collapse:collapse;padding:3px 3px 3px 3px">
+<tr style="text-align:center;font-weight:bold;background:#9CBCE2">
+<td>Republic-Champion Route</td>
+</tr>
+<tr>
+<td>
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-spacing:0px; padding:3px 3px 3px 3px">
+<tr>
+<td>Name</td>
+<td>Republic-Champion Route</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+]]></description>
+      <styleUrl>#LineStyle00</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <extrude>0</extrude><altitudeMode>clampToGround</altitudeMode>
+          <coordinates> -87.96433982799994,46.40495550300005,0 -87.96394822899998,46.40511670300003,0 -87.96297998699998,46.40566913300006,0 -87.96253431399998,46.40601263900004,0 -87.96234173599999,46.40621123600005,0 -87.96219462699997,46.40626713700004,0 -87.96204115899997,46.40627831100005,0 -87.96185420499995,46.40663400100004,0 -87.96167031799996,46.40707537800006,0 -87.96152692899995,46.40730171100006,0 -87.96143471699998,46.40780344000007,0 -87.96143723499995,46.40838931900004,0 -87.96143996199999,46.40902399200007,0 -87.96227746499994,46.41166776300003,0 -87.96228753399998,46.41248248900007,0 -87.96220083899999,46.41294601700008,0 -87.96207257699996,46.41339563600008,0 -87.96127378299997,46.41494344400007,0 -87.96051532799999,46.41684270900004,0 -87.96034362799998,46.41724100500005,0 -87.96017565599999,46.41755308200004,0 -87.95931407699999,46.41868762400003,0 -87.95698429499998,46.42114246900007,0 -87.95125445899998,46.42739446600007,0 -87.95049998999997,46.42862084000007,0 -87.95017375899994,46.42961543700005,0 -87.95080269799996,46.43211558400003,0 -87.95419829799994,46.43784003400003,0 -87.95499529299997,46.44200707400006,0 -87.95490416999996,46.44321539400005,0 -87.95456740999998,46.44386981000008,0 -87.95375356899996,46.44466795300008,0 -87.95057293199994,46.44610558900007,0 -87.94968348499998,46.44669176500003,0 -87.94880471499994,46.44774977000003,0 -87.94851825199999,46.44883651100008,0 -87.94895911299994,46.45034801100007,0 -87.95610533799999,46.46231577300006,0 -87.95685771699993,46.46439014300006,0 -87.95746775199996,46.46801351100004,0 -87.95881966499997,46.47225035900004,0 -87.95856864899997,46.47412021600007,0 -87.95687970599994,46.47712182400005,0 -87.95534060899996,46.48669811800005,0 -87.95676749099994,46.49280376800004,0 -87.95558727499997,46.49565318700007,0 -87.95357174999998,46.49820180000006,0 -87.95318001299995,46.49982367000007,0 -87.95393056099994,46.50275717600005,0</coordinates>
+        </LineString>
+        <LineString>
+          <extrude>0</extrude><altitudeMode>clampToGround</altitudeMode>
+          <coordinates> -87.95393056099994,46.50275717600005,0 -87.95419179599998,46.50301095000003,0 -87.95435869499994,46.50380473700005,0 -87.95431474199995,46.50443221100005,0 -87.95407851899995,46.50469615600008,0</coordinates>
+        </LineString>
+        <LineString>
+          <extrude>0</extrude><altitudeMode>clampToGround</altitudeMode>
+          <coordinates> -87.95393056099994,46.50275717600005,0 -87.95407851899995,46.50469615600008,0</coordinates>
+        </LineString>
+        <LineString>
+          <extrude>0</extrude><altitudeMode>clampToGround</altitudeMode>
+          <coordinates> -87.96391258699998,46.51330611700007,0 -87.95983267999998,46.51216301500006,0 -87.95612291899994,46.51063702200003,0 -87.95459487899996,46.51025877800004,0 -87.95362496399997,46.50969057400005,0 -87.95303309699995,46.50896773500006,0 -87.95286774699997,46.50835394700005,0 -87.95298836499995,46.50765934400005,0 -87.95410625199997,46.50506136800004,0 -87.95407851899995,46.50469615600008,0</coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+  </Folder>
+  <Style id="LineStyle00">
+    <LabelStyle>
+      <color>00000000</color>
+      <scale>0.000000</scale>
+    </LabelStyle>
+    <LineStyle>
+      <color>ff74a600</color>
+      <width>1.000000</width>
+    </LineStyle>
+    <PolyStyle>
+      <color>00000000</color>
+      <outline>0</outline>
+    </PolyStyle>
+  </Style>
+</Document>
+</kml>

@@ -11,10 +11,14 @@
 	
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icon2"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
 		android:resizeableActivity = "true">
+		<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/> 
+		<meta-data android:name="MAPBOX_MAPID" android:value="ORV Trails" />
+		<meta-data android:name="MAPBOX_ACCESS_TOKEN" android:value="pk.eyJ1IjoiamViMTkyMDA0IiwiYSI6ImNpbWNyYXEzazAwMjR2Z202NHBkazAzcWwifQ.uUWPueErIhRHP6aUJ6U5aw" />
+		
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" 

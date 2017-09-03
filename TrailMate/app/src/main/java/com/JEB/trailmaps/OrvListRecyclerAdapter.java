@@ -24,6 +24,8 @@ import org.osmdroid.bonuspack.kml.*;
 import org.osmdroid.views.overlay.*;
 import org.osmdroid.util.*;
 import android.view.*;
+import org.osmdroid.views.overlay.infowindow.*;
+import org.osmdroid.views.*;
 
 
 public class OrvListRecyclerAdapter extends RecyclerView.Adapter<OrvListAdapter> {
@@ -33,6 +35,7 @@ public class OrvListRecyclerAdapter extends RecyclerView.Adapter<OrvListAdapter>
 	//MainActivity main;
 	private String gpx;
 	KmlFeature.Styler styler;
+	private String trailName;
 	
     public OrvListRecyclerAdapter(MainActivity context, List<OrvListItems> listItems) {
         this.listItems = listItems;
@@ -142,6 +145,8 @@ public class OrvListRecyclerAdapter extends RecyclerView.Adapter<OrvListAdapter>
 			builder.setNegativeButton(("Cancel"), null);
 			builder.create().show();
 		}**/
+		InfoWindow.closeAllInfoWindowsOn(mContext.map);
+					trailName = listItem.name.toString();
 					bike_kml = listItem.bikeKml.toString();
 					atv_kml = listItem.atvKml.toString();
 					utv_kml = listItem.utvKml.toString();
@@ -206,7 +211,14 @@ public class OrvListRecyclerAdapter extends RecyclerView.Adapter<OrvListAdapter>
 						mContext.drawerLayout.closeDrawer(Gravity.RIGHT);
 					}
 					else{}
-				
+					Marker trailName = new Marker(mContext.map);
+					InfoWindow infoWindow = new MyInfoWindow(R.layout.bonuspack_bubble, mContext.map);
+					trailName.setInfoWindow(infoWindow);
+					trailName.setTitle(listItem.name);
+					trailName.setIcon(mContext.getResources().getDrawable(R.drawable.info));
+					trailName.setPosition(bb.getCenter());
+					trailName.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+					mContext.map.getOverlays().add(trailName);
 				}
 
 				private void bike_kml()
@@ -273,5 +285,31 @@ public class OrvListRecyclerAdapter extends RecyclerView.Adapter<OrvListAdapter>
     }
 
 
+	private class MyInfoWindow extends InfoWindow{
+		public MyInfoWindow(int layoutResId, MapView mapView) {
+			super(layoutResId, mapView); 
+		}
+		public void onClose() {
+		}
 
+		public void onOpen(Object arg0) {
+			LinearLayout layout = (LinearLayout) mView.findViewById(R.id.bubble_layout); 
+			TextView txtTitle = (TextView) mView.findViewById(R.id.title);
+			ImageView image360 = (ImageView) mView.findViewById(R.id.image360);
+			ImageView trailVid = (ImageView) mView.findViewById(R.id.trail_vid);
+			ImageView actionVid = (ImageView) mView.findViewById(R.id.action_vid);
+			Button close = (Button) mView.findViewById(R.id.close);
+			txtTitle.setText(trailName);
+			image360.setImageResource(R.drawable.image360);
+			trailVid.setImageResource(R.drawable.vid);
+			actionVid.setImageResource(R.drawable.action_vid);
+			close.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						InfoWindow.closeAllInfoWindowsOn(mContext.map);
+					}
+				}); 
+				
+		} 
+	}
+	
 }

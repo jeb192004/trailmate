@@ -9,5 +9,15 @@
 	<string name="orvtrailswitchname">ORV Trails(&lt;50")</string>
 	<string name="orvrouteswitchname">ORV Routes(&gt;50&quot;)</string>
 	<string name="snowswitchname">Snowmobile Trails</string>
-	
+	<string name="cache">Data connection to the maps will be truned off.
+		\n\n
+		When switching map styles, the data connection will be turned on and
+		your downloaded area will need to be redownloaded for that map style.
+		\n\n
+		Downloaded data will be deleted/overwritten everytime you switch map
+		styles or turn map data back on.
+		</string>
+		
+	<string name="facebook_app_id">1619384498386028</string>
+		
 </resources>

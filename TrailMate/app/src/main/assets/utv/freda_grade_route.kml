@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd http://www.google.com/kml/ext/2.2 http://code.google.com/apis/kml/schema/kml22gx.xsd">
+<Document id="trails_temp_layer">
+  <name>trails_temp_layer</name>
+  <Snippet></Snippet>
+  <Folder id="FeatureLayer0">
+    <name>trails_temp_layer</name>
+    <Snippet></Snippet>
+    <description><![CDATA[trails_temp_layer]]></description>
+    <Placemark id="ID_00000">
+      <name>Freda Grade Route</name>
+      <Snippet></Snippet>
+      <description><![CDATA[<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body style="margin:0px 0px 0px 0px;overflow:auto;background:#FFFFFF;">
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-collapse:collapse;padding:3px 3px 3px 3px">
+<tr style="text-align:center;font-weight:bold;background:#9CBCE2">
+<td>Freda Grade Route</td>
+</tr>
+<tr>
+<td>
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-spacing:0px; padding:3px 3px 3px 3px">
+<tr>
+<td>Name</td>
+<td>Freda Grade Route</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+]]></description>
+      <styleUrl>#LineStyle00</styleUrl>
+      <MultiGeometry>
+        <LineString>
+          <extrude>0</extrude><altitudeMode>clampToGround</altitudeMode>
+          <coordinates> -88.65105844699997,47.08404875100007,0 -88.65377579399996,47.08849581300007,0 -88.65634135799996,47.09607572200008,0 -88.65722748899998,47.09718955700004,0 -88.65832311999998,47.09787486700003,0 -88.65966826899995,47.09839065700004,0 -88.66094116599999,47.09862903000004,0 -88.67105647399995,47.09897455700008,0 -88.67744967699997,47.10014582900004,0 -88.67863227099997,47.10019030500007,0 -88.68389453399999,47.09938900000003,0 -88.68698507499994,47.09959026400003,0 -88.69277044199998,47.10053687900006,0 -88.69522439599996,47.10107917200003,0 -88.69801057999996,47.10218020900004,0 -88.70244036299994,47.10464413600005,0 -88.70284927799997,47.10473748600003,0 -88.70317772999994,47.10506567100003,0 -88.70548135699994,47.10571705500007,0 -88.70694202799996,47.10588804300005,0 -88.70893956699996,47.10595239300005,0 -88.71133816299994,47.10565277500007,0 -88.71321269699996,47.10494798500008,0 -88.71378136499999,47.10494918900008,0 -88.71447905799994,47.10468289000005,0 -88.71575235399996,47.10460386400007,0 -88.71798097199996,47.10469972900006,0 -88.72310510799997,47.10541457800008,0 -88.72506051499994,47.10531477800004,0 -88.72753053599996,47.10490677700005,0 -88.73030340099996,47.10408697400004,0 -88.73202017599994,47.10390608500006,0 -88.73303063699996,47.10403847600003,0 -88.73364574299995,47.10396477600006,0 -88.73586973699997,47.10484138200008,0 -88.73746707799995,47.10604065100006,0 -88.74940792399997,47.11679208100003,0 -88.75028307199995,47.11796457700007,0 -88.75051156899997,47.11905658400008,0 -88.74990272499997,47.12204090400007,0 -88.74992814299998,47.12317801000006,0 -88.75058044199994,47.12533318000004,0 -88.75192001799996,47.12704032800008,0 -88.76098085099994,47.13501046000005,0 -88.76318527499996,47.13814896400004,0 -88.76418218499998,47.14114258900003,0 -88.76465631199994,47.14162859000004,0 -88.76562368999998,47.14209260100006,0 -88.76600724099995,47.14208618500004,0 -88.76684582299998,47.14273839700007,0 -88.76743338099999,47.14414949800005,0 -88.76729173699994,47.14493502000005,0 -88.76691796299997,47.14553763100008,0 -88.76682363699996,47.14637715100008,0 -88.76787464799998,47.14781029400007,0 -88.76783752499995,47.14855166600006,0</coordinates>
+        </LineString>
+      </MultiGeometry>
+    </Placemark>
+  </Folder>
+  <Style id="LineStyle00">
+    <LabelStyle>
+      <color>00000000</color>
+      <scale>0.000000</scale>
+    </LabelStyle>
+    <LineStyle>
+      <color>ff74a600</color>
+      <width>1.000000</width>
+    </LineStyle>
+    <PolyStyle>
+      <color>00000000</color>
+      <outline>0</outline>
+    </PolyStyle>
+  </Style>
+</Document>
+</kml>
